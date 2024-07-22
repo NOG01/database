@@ -17,7 +17,6 @@ db.serialize(() => {
     db.run("CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY, username TEXT, password TEXT)");
 });
 
-// Middleware to check JWT token
 function authenticateToken(req, res, next) {
     const token = req.headers['authorization'];
     if (!token) return res.sendStatus(401);
@@ -29,7 +28,6 @@ function authenticateToken(req, res, next) {
     });
 }
 
-// Route to register an admin
 app.post('/register', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -48,7 +46,6 @@ app.post('/register', (req, res) => {
     stmt.finalize();
 });
 
-// Route to login and get a token
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -65,7 +62,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-// Secured routes for managing users
 app.post('/add-user', authenticateToken, (req, res) => {
     const { name, favoriteMovie, favoriteSeries, favoriteGame, favoriteComic } = req.body;
 
